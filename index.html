@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Poké Trivia Battle</title>
+<meta name="description" content="A turn-based Pokémon battle game where every attack is earned by answering trivia questions.">
+<meta name="theme-color" content="#0f1a16">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Poké Trivia">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="chassis">
+  <div class="chassis-cam"><span></span></div>
+  <div class="screen" id="app" role="application" aria-label="Poké Trivia Battle">
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand"><span class="brand-ball" aria-hidden="true"></span>POKÉ TRIVIA</div>
+      <div class="topbar-status" id="topbarStatus"></div>
+    </header>
+
+    <main id="screens">
+
+      <!-- LOADING -->
+      <section id="screen-loading" class="screen active">
+        <div class="loading-wrap">
+          <div class="pokeball-spin" aria-hidden="true"></div>
+          <p class="loading-text">Loading Pokédex data…</p>
+        </div>
+      </section>
+
+      <!-- HOME -->
+      <section id="screen-home" class="screen">
+        <h1 class="title-logo">POKÉ TRIVIA<span>BATTLE</span></h1>
+        <p class="tagline">Answer right, land the hit. Answer wrong, take one.</p>
+
+        <div class="stats-strip" id="homeStats"></div>
+
+        <div class="menu-list">
+          <button id="btnCampaign" class="menu-btn primary"></button>
+          <button id="btnEndless" class="menu-btn">∞ Endless Survival</button>
+          <button id="btnHow" class="menu-btn ghost">Rules · How to Play</button>
+          <button id="btnResetSave" class="menu-btn danger-ghost">Reset Save Data</button>
+        </div>
+
+        <button id="btnInstall" class="install-btn" hidden>⭳ Install this app</button>
+      </section>
+
+      <!-- STARTER SELECT -->
+      <section id="screen-select" class="screen">
+        <h2 class="screen-title">Choose Your Partner</h2>
+        <div class="starter-grid" id="starterGrid"></div>
+        <button id="btnBackHome" class="menu-btn ghost small">← Back</button>
+      </section>
+
+      <!-- HOW TO PLAY -->
+      <section id="screen-how" class="screen">
+        <h2 class="screen-title">How to Play</h2>
+        <div class="how-body">
+          <p><strong>Every turn is a question.</strong> Four choices, one correct answer, one countdown clock.</p>
+          <p><strong>Answer correctly</strong> → your Pokémon strikes. Damage scales with type matchups (just like the real games), your streak, and the question's difficulty.</p>
+          <p><strong>Answer wrong or run out of time</strong> → your opponent strikes back, and your combo streak resets to zero.</p>
+          <p><strong>Campaign mode</strong> is a 10-stage gauntlet ending in a Champion battle. <strong>Endless mode</strong> throws increasingly tough opponents at you for a high score.</p>
+          <p>Progress and stats are saved on this device automatically.</p>
+        </div>
+        <button id="btnBackHome2" class="menu-btn ghost small">← Back</button>
+      </section>
+
+      <!-- BATTLE -->
+      <section id="screen-battle" class="screen battle-screen">
+        <div class="stage-banner" id="stageBanner"></div>
+
+        <div class="arena">
+          <div class="combatant opponent">
+            <div class="hud">
+              <div class="hud-name-row">
+                <span class="hud-name" id="oppName"></span>
+                <span class="hud-lv" id="oppLv"></span>
+              </div>
+              <div class="type-badges" id="oppTypes"></div>
+              <div class="hpbar"><div class="hp-fill" id="oppHpFill"></div><div class="hp-notches"></div></div>
+            </div>
+            <div class="sprite-wrap" id="oppSprite"></div>
+          </div>
+
+          <div class="combatant player">
+            <div class="sprite-wrap" id="playerSprite"></div>
+            <div class="hud">
+              <div class="hud-name-row">
+                <span class="hud-name" id="playerName"></span>
+                <span class="hud-lv" id="playerLv"></span>
+              </div>
+              <div class="type-badges" id="playerTypes"></div>
+              <div class="hpbar"><div class="hp-fill" id="playerHpFill"></div><div class="hp-notches"></div></div>
+              <div class="hp-numbers" id="playerHpNum"></div>
+            </div>
+          </div>
+
+          <div class="fx-banner" id="fxBanner"></div>
+        </div>
+
+        <div class="dialogue-box">
+          <div class="log-line" id="battleLog">What will you do?</div>
+          <div class="streak-chip" id="streakChip" hidden>🔥 Streak ×<span id="streakVal">0</span></div>
+        </div>
+
+        <div class="question-panel" id="questionPanel">
+          <div class="question-meta">
+            <span class="q-category" id="qCategory"></span>
+            <div class="timer-track"><div class="timer-fill" id="timerFill"></div></div>
+          </div>
+          <div class="question-text" id="qText"></div>
+          <div class="answers-grid" id="answersGrid"></div>
+        </div>
+      </section>
+
+      <!-- RESULT -->
+      <section id="screen-result" class="screen">
+        <div class="result-card">
+          <div class="result-icon" id="resultIcon"></div>
+          <h2 id="resultTitle"></h2>
+          <p id="resultSubtitle"></p>
+          <div class="result-stats" id="resultStats"></div>
+          <div class="menu-list">
+            <button id="btnResultNext" class="menu-btn primary"></button>
+            <button id="btnResultRetry" class="menu-btn ghost"></button>
+            <button id="btnResultMenu" class="menu-btn ghost">Main Menu</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script src="js/pokemon.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/battle.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
