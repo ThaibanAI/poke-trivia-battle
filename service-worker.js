@@ -1,4 +1,4 @@
-const CACHE_NAME = "poke-trivia-v1";
+const CACHE_NAME = "poke-trivia-v2";
 const PRECACHE_URLS = [
   "./",
   "./index.html",
@@ -30,35 +30,22 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Cache-first for same-origin app assets; network-first fallback for everything else
-// (e.g. the Google Fonts CDN — falls back gracefully offline via CSS font stacks).
+// Network-first for everything: always try to get the freshest copy when
+// online (so a new deploy shows up on the very next load), and only fall
+// back to the cached copy when the network request fails (i.e. offline).
+// This trades a few extra bytes on each load for never getting stuck
+// showing a stale cached build after an update.
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
 
-  const url = new URL(req.url);
-  const isSameOrigin = url.origin === self.location.origin;
-
-  if (isSameOrigin){
-    event.respondWith(
-      caches.match(req).then((cached) => {
-        if (cached) return cached;
-        return fetch(req).then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-          return res;
-        }).catch(() => cached);
+  event.respondWith(
+    fetch(req)
+      .then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+        return res;
       })
-    );
-  } else {
-    event.respondWith(
-      fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-          return res;
-        })
-        .catch(() => caches.match(req))
-    );
-  }
+      .catch(() => caches.match(req))
+  );
 });
