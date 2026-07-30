@@ -46,7 +46,7 @@ button{ font-family:inherit; }
 }
 .chassis-cam{ display:none; }
 
-.screen{
+.device-screen{
   position:relative;
   width:100%;
   max-width:460px;
@@ -71,7 +71,7 @@ button{ font-family:inherit; }
     position:fixed;
     /* purely decorative, ignored on small screens */
   }
-  .screen{
+  .device-screen{
     border:10px solid var(--chassis);
     border-radius:34px;
     box-shadow:
@@ -79,7 +79,7 @@ button{ font-family:inherit; }
       0 40px 90px -20px rgba(0,0,0,0.75),
       0 0 0 10px var(--chassis);
   }
-  .screen::before{
+  .device-screen::before{
     content:"";
     position:absolute; top:-34px; left:24px;
     width:16px; height:16px; border-radius:50%;
