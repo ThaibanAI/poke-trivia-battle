@@ -19,8 +19,8 @@
     "question": "Which Pokemon is known as the Electric Mouse Pokemon?",
     "options": [
       "Pikachu",
-      "Raichu",
-      "Pichu",
+      "Dedene",
+      "Pachurisu",
       "Emolga"
     ],
     "answer": 0
@@ -46,10 +46,10 @@
     "options": [
       "Gholdengo",
       "Gardevoir",
-      "Poliwag",
+      "Oricorio",
       "Sobble"
     ],
-    "answer": 0
+    "answer": 1
   },
   {
     "id": 5,
@@ -144,14 +144,14 @@
   },
   {
     "id": 12,
-    "category": "Legendary Status",
-    "difficulty": "medium",
-    "question": "Which of these Pokemon is NOT Legendary or Mythical (it's an ordinary species)?",
+    "category": "Nieche knowledge",
+    "difficulty": "super hard",
+    "question": "Which of these Pokemon is NOT Legendary?",
     "options": [
       "Celebi",
-      "Tapu Koko",
+      "Kartana",
       "Groudon",
-      "Weepinbell"
+      "Dragonite"
     ],
     "answer": 3
   },
@@ -287,27 +287,27 @@
   },
   {
     "id": 23,
-    "category": "Legendary Status",
+    "category": "Mythical Status",
     "difficulty": "medium",
-    "question": "Which of these Pokemon is NOT Legendary or Mythical (it's an ordinary species)?",
+    "question": "Which of these Pokemon is Mythical?",
     "options": [
-      "Kommo o",
-      "Dragapult",
+      "Mewtwo",
+      "Darkrai",
       "Nidorino",
-      "Keldeo"
+      "Articuno"
     ],
-    "answer": 2
+    "answer": 1
   },
   {
     "id": 24,
-    "category": "Types",
-    "difficulty": "easy",
-    "question": "What type is Kingler?",
+    "category": "Nieche Knowledge",
+    "difficulty": "super hard",
+    "question": "Which pokemon is mythical?",
     "options": [
-      "Water",
-      "Rock/Water",
-      "Ghost/Dragon",
-      "Electric/Bug"
+      "Regigigas",
+      "Regirock",
+      "Registeel",
+      "Regice"
     ],
     "answer": 0
   },
